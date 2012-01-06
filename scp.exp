@@ -1,0 +1,25 @@
+#!/usr/bin/expect
+#
+#
+set timeout 60
+
+#read the input parameters
+set ip [lindex $argv 0]
+set password [lindex $argv 1]
+set file [lindex $argv 2]
+set file2 [lindex $argv 3]
+
+#check if all were provided
+if { $ip == "" || $password == "" || $file == "" }  {
+  puts "Usage: <ip> <password> <file> <file2> \n"
+  exit 1
+}
+
+spawn /usr/bin/scp -o "StrictHostKeyChecking=no" $file root@$ip:$file2
+
+expect "password:" {
+send "$password\r"
+exp_continue
+}
+exit
+
