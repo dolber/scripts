@@ -1,0 +1,22 @@
+#!/usr/bin/expect
+#
+#
+set timeout 60
+
+#read the input parameters
+set ip [lindex $argv 0]
+set password [lindex $argv 1]
+set command [lindex $argv 2]
+
+#check if all were provided
+if { $ip == "" || $password == "" || $command == "" }  {
+  puts "Usage: <ip> <host> <name> \n"
+  exit 1
+}
+
+spawn ssh -q -t -o "StrictHostKeyChecking=no" root@$ip $command
+
+expect "password:"
+send "$password\r"
+expect eof
+
