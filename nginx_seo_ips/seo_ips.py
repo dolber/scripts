@@ -19,6 +19,7 @@ asndb = pyasn.pyasn('ipasn_20170627.1200.dat')
 # print(asndb.get_as_prefixes(8402))
 # AS13238 - AS-YANDEX
 # AS15169 - GOOGLE
+# AS47764 - mail.ru 
 
 # for net in asndb.get_as_prefixes(8402):
 #     print(net)
