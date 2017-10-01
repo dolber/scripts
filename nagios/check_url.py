@@ -11,8 +11,6 @@ from io import BytesIO
 import logging
 import re
 
-
-
 logger = logging.getLogger('nagios-scripts')
 logger.setLevel(logging.DEBUG)
 
