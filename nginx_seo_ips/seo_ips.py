@@ -19,14 +19,15 @@ asndb = pyasn.pyasn('ipasn_20170627.1200.dat')
 # print(asndb.get_as_prefixes(8402))
 # AS13238 - AS-YANDEX
 # AS15169 - GOOGLE
-# AS47764 - mail.ru 
+# AS47764 - mail.ru
+# test gpg
 
 # for net in asndb.get_as_prefixes(8402):
 #     print(net)
 
-print("geo $seo_user {");
+print("geo $seo_user {")
 print("default 0;")
-print("");
+print("")
 
 print("# AS-YANDEX networks")
 for net in asndb.get_as_prefixes(13238):
