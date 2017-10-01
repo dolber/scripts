@@ -3,13 +3,14 @@
 import argparse
 import sys
 import requests
-# import subprocess
+import subprocess
 import json
 import pycurl
 from urllib.parse import urlparse
 from io import BytesIO
 import logging
 import re
+
 
 
 logger = logging.getLogger('nagios-scripts')
