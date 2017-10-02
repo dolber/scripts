@@ -10,6 +10,7 @@ from urllib.parse import urlparse
 from io import BytesIO
 import logging
 import re
+import time
 
 logger = logging.getLogger('nagios-scripts')
 logger.setLevel(logging.DEBUG)
@@ -118,6 +119,8 @@ def url_request_curl(url, response_text, ip, ipv6=0):
         headers = headers.getvalue().decode('iso-8859-1')
 
         logger.info("Status code: {} for url {} via ip {} and ipv6 {}".format(curl.getinfo(curl.RESPONSE_CODE), url, ip, ipv6))
+        now = time.strftime("%Y-%m-%d %H.%M.%S", time.localtime())
+        print("Status code: {} for url {} via ip {} and ipv6 {} [{}]".format(curl.getinfo(curl.RESPONSE_CODE), url, ip, ipv6, now))
         logger.debug(body)
         logger.debug(headers)
 
@@ -184,7 +187,7 @@ if __name__ == "__main__":
     parser.add_argument('--host', '-u', help="specify a target url", type=str)
     parser.add_argument('--ip', '-I', help="specify a target ip or set undef", type=str)
     parser.add_argument('--ipv6', '-6', help="force use ipv6", type=str2bool, nargs='?', const=True, default="False" )
-    parser.add_argument('--text', action="append", help="plain text to search in url (multiple options allowed)")
+    parser.add_argument('--text', '-t', action="append", help="plain text to search in url (multiple options allowed)")
     parser.add_argument('-v', '--verbose', action="count", help="verbose level... repeat up to three times.")
     args = parser.parse_args()
 
