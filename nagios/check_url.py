@@ -27,7 +27,6 @@ console_handler.setLevel(logging.CRITICAL) # set later by set_log_level_from_ver
 console_handler.setFormatter( logging.Formatter('[%(asctime)s - %(levelname)s](%(name)s): %(message)s') )
 logger.addHandler(console_handler)
 
-logger.info("Starting...")
 
 VERSION='0.1'
 def show_version(): print(VERSION)
@@ -86,8 +85,8 @@ def url_request_curl(url, response_text, ip, ipv6=0):
     elif parsed_url.scheme == "https":
         port = 443
 
-    logger.info(str("get url {0} via ip {1}".format(url, ip)))
-    logger.info(str("domain is {0}, port is {1} and via scheme {2}".format(domain, port, parsed_url.scheme)))
+    logger.debug(str("get url {} via ip {}".format(url, ip)))
+    logger.debug(str("domain is {} port is {} and via scheme {}".format(domain, port, parsed_url.scheme)))
     buffer = BytesIO()
     headers = BytesIO()
     curl = pycurl.Curl()
@@ -118,9 +117,9 @@ def url_request_curl(url, response_text, ip, ipv6=0):
         body = buffer.getvalue().decode('iso-8859-1')
         headers = headers.getvalue().decode('iso-8859-1')
 
-        logger.info("Status code: {0} for url {1}".format(curl.getinfo(curl.RESPONSE_CODE), url))
-        logger.info(body)
-        logger.info(headers)
+        logger.info("Status code: {} for url {} via ip {} and ipv6 {}".format(curl.getinfo(curl.RESPONSE_CODE), url, ip, ipv6))
+        logger.debug(body)
+        logger.debug(headers)
 
         if curl.getinfo(curl.RESPONSE_CODE) > 200:
             nagiosExit(nagios.critical, str("Status code: {0} :: {1}".format(curl.getinfo(curl.RESPONSE_CODE), url)))
@@ -160,14 +159,14 @@ def check_text_response(text_response,expected_response_text):
 def check_text_response_list(text_response, expected_response_list):
     """ Simply do an equality comparison between two objects.  Caution, may do 'hilarious' things on binary data. """
     if expected_response_list:
-        logger.info("expected_response_list = {0}".format(str(expected_response_list)))
+        logger.debug("expected_response_list = {0}".format(str(expected_response_list)))
         for expected_response_text in expected_response_list:
             if str(expected_response_text) not in str(text_response):
                 returnValue = "Expected {0} ; Received: {1}".format(expected_response_text, text_response)
                 nagiosExit(nagios.critical,str(returnValue))
-    else:
-        logger.info("nagios ok")
-        nagiosExit(nagios.ok)
+
+    logger.debug("nagios ok")
+    nagiosExit(nagios.ok)
 
 
 if __name__ == "__main__":
@@ -206,7 +205,8 @@ if __name__ == "__main__":
     if args.version:
         show_version()
     if args.text:
-        logger.info("ipv6 options is set to {}".format(args.ipv6))
+        logger.debug("ipv6 options is set to {}".format(args.ipv6))
+        logger.debug("ip option is set to {} and type {}".format(str(args.ip), type(args.ip)))
         url_request_curl(url=args.host, response_text=args.text, ip=args.ip, ipv6=args.ipv6)
     if not args.version and not args.host:
         parser.print_help()
