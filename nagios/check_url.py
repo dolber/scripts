@@ -120,7 +120,7 @@ def url_request_curl(url, response_text, ip, ipv6=0):
 
         logger.info("Status code: {} for url {} via ip {} and ipv6 {}".format(curl.getinfo(curl.RESPONSE_CODE), url, ip, ipv6))
         now = time.strftime("%Y-%m-%d %H.%M.%S", time.localtime())
-        print("Status code: {} for url {} via ip {} and ipv6 {} [{}]".format(curl.getinfo(curl.RESPONSE_CODE), url, ip, ipv6, now))
+        print("Status code: {0} for url {1} via ip {2} and ipv6 {3} [{4}] |status_code={0};;;0".format(curl.getinfo(curl.RESPONSE_CODE), url, ip, ipv6, now))
         logger.debug(body)
         logger.debug(headers)
 
